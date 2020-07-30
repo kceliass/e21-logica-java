@@ -10,6 +10,6 @@ public class Calcula_Idade{
 
         idade = anoAtual - anoNascimento;
 
-        System.out.println("A idade do usuário é: " + idade);
+        System.out.println("A idade do usuario : " + idade);
 	}
 }

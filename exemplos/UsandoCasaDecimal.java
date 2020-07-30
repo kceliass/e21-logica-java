@@ -6,6 +6,6 @@ public class UsandoCasaDecimal{
         nome = "Kauan Elias";
         altura = 1.83;
 
-        System.out.println("Oi, meu nome é " + nome + ", e tenho " + altura + " metros");
+        System.out.println("Oi, meu nome e " + nome + ", e tenho " + altura + " metros");
 	}
 }
