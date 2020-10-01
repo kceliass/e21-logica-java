@@ -251,5 +251,34 @@ public class ExerciciosVetor {
 		for (int i = 0; i < frase2.length; i++) {
 			System.out.print(frase2[i]);
 		}
+		
+		sc.close();
+	}
+	
+	public static void questao10() {
+		Scanner sc = new Scanner(System.in);
+		
+		String[] frase1 = {"G", "O", "S", "T", "O", " ","D","E"," ", "P", "Ã", "O"};
+		String[] frase2 = new String[frase1.length];
+		
+		
+		for (int i = 0; i < frase1.length; i++) {
+			System.out.print(frase1[i]);
+		}
+		
+		for (int i = 0; i < frase1.length;i++) {
+			if (frase1[i] != " ") {
+				frase2[i] = frase1[i];
+			} else {
+				frase2[i] = "";
+			}
+		}
+		
+		System.out.println("");
+		for (int i = 0; i < frase2.length; i++) {
+			System.out.print(frase2[i]);
+		}
+		
+		sc.close();
 	}
 }
