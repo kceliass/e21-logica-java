@@ -14,6 +14,7 @@ public class ExerciciosRevisao {
 //		questao8();
 //		questao9();
 //		questao10();
+		questao11();
 		
 		System.exit(0);
 	}
@@ -367,4 +368,16 @@ public class ExerciciosRevisao {
 		System.out.println("Média de altura da turma: " + (soma/iTodos));
 		
 	}
+	
+	public static void questao11() {
+		int a = 0;
+		if(a>=0) {
+			System.out.println(a);
+			a++;
+		} else if(a==1) {
+			System.out.println(a);
+		}
+		System.out.println("fim");
+	}
+	
 }
