@@ -15,11 +15,18 @@ public class Projeto00 {
         if (!"".equals(nome)) {
            usuario.setNome(nome);
            
-            System.out.println("Bem vindo, " + usuario.getNome());
+            
         }else {
             System.out.println("Por favor, insira um nome válido.");
-               
-               }
+        }
+        
+        System.out.println("Bem vindo, " + usuario.getNome());
+        System.out.println("Informe seu ano de nascimento: ");
+        int nascimento = sc.nextInt();
+        usuario.setAnoNascimento(nascimento);
+        
+        System.out.println("Ano de Nascimento: " + usuario.getAnoNascimento());
+        System.out.println("Idade: " + usuario.getIdade());
 
     }
 }

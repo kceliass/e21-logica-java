@@ -6,8 +6,8 @@ public class Pessoa {
     private double altura;
     private double peso;
     private String voz;
-    String getNome;
-    
+    private int anoNascimento;
+    private int idade;
     /**
      * Construtor Vazio
      */
@@ -53,5 +53,28 @@ public class Pessoa {
     
     public String getVoz() {
         return this.voz;
+    }
+    
+    public void setAnoNascimento(int anoNascimento) {
+        this.anoNascimento = anoNascimento;
+    }
+    
+    public int getAnoNascimento() {
+        return this.anoNascimento;
+    }
+    
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+    
+    public int getIdade() {
+        return this.idade;
+    }
+    
+    public void calculaIdade() {
+        if(anoNascimento != 0) {
+            int idade = 2020 - anoNascimento;
+            setIdade(idade);
+        }
     }
 }
