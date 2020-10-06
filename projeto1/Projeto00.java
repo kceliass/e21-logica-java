@@ -3,29 +3,30 @@ package projeto1;
 import java.util.Scanner;
 
 public class Projeto00 {
-
     public static void main(String[] args) {
+//      questao1();
+//      questao2();
+//      questao3();
+
+        System.exit(0);
+    }
+
+    public static void questao1() {
         Pessoa usuario = new Pessoa();
-        
-        String nome;
         Scanner sc = new Scanner(System.in);
+        
+        int idade;
+        String nome;
+        
         System.out.println("Informe seu nome: ");
         nome = sc.nextLine();
-
-        if (!"".equals(nome)) {
-           usuario.setNome(nome);
-           
-            
-        }else {
-            System.out.println("Por favor, insira um nome válido.");
-        }
-        
-        System.out.println("Bem vindo, " + usuario.getNome());
-        System.out.println("Informe seu ano de nascimento: ");
-        int nascimento = sc.nextInt();
-        usuario.setAnoNascimento(nascimento);
-        
-        System.out.println("Ano de Nascimento: " + usuario.getAnoNascimento());
+        usuario.setNome(nome);
+    
+        System.out.println("Informe sua idade: ");
+        idade = sc.nextInt();
+        usuario.setIdade(idade);
+   
+        System.out.println("Nome: " + usuario.getNome());
         System.out.println("Idade: " + usuario.getIdade());
 
     }

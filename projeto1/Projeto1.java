@@ -6,7 +6,7 @@ public class Projeto1 {
 
     public static void main(String[] args) {
 //      questao1();
-        questao2();
+//      questao2();
 //      questao3();
 
         System.exit(0);
