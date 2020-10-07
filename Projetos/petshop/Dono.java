@@ -1,21 +1,17 @@
 package petshop;
 
+import java.util.ArrayList;
+
 public class Dono {
     private String nome;
     private int idade;
-    private Pet pet;
+    private ArrayList<Pet> pet = new ArrayList<Pet>();
     
     /**
      * método vazio Dono
      */
     Dono(){
         
-    }
-
-    Dono(String nome, int idade, Pet pet) {
-        this.nome = nome;
-        this.idade = idade;
-        this.pet = pet;
     }
 
     public String getNome() {
@@ -26,8 +22,8 @@ public class Dono {
         return this.idade;
     }
 
-    public Pet getPet() {
-        return this.pet;
+    public Pet getPet(int index) {
+        return pet.get(index);
     }
 
     public void setNome(String nome) {
@@ -39,10 +35,11 @@ public class Dono {
     }
 
     public void setPet(Pet pet) {
-        this.pet = pet;
+        this.pet.add(pet);
     }
     
-    
-    
+    public ArrayList<Pet> getPets() {
+        return this.pet;
+    }
     
 }

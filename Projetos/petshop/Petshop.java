@@ -1,41 +1,37 @@
 package petshop;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Petshop {
 
     public static void main(String[] args) {
         Dono dono = new Dono();
-        Pet pet = new Pet();
-        
+        dono.setPet(new Pet());
+        ArrayList<Pet> pet = new ArrayList<Pet>();
         Scanner sc = new Scanner(System.in);
         
-        String nomeDono, nomePet, tipo, cor, idade;
-        int idadeInt;
-        
-       
+        int qtdPets = 0;
+    
         System.out.println("Informe seu nome: ");
-        nomeDono = sc.nextLine();
-        dono.setNome(nomeDono);
+        dono.setNome(sc.next());
         
         System.out.println("Informe sua idade: ");
-        idade = sc.nextLine();
-        idadeInt = Integer.parseInt(idade);
-        dono.setIdade(idadeInt);
+        dono.setIdade(Integer.parseInt(sc.next()));
         
+        System.out.println("Digite quantos pets o dono possui: ");
+        qtdPets = sc.nextInt();
+        
+        for(int i = 0; i < qtdPets;i++) {
+
         System.out.println("Informe o nome do pet: ");
-        nomePet = sc.nextLine();
-        pet.setNome(nomePet);
+        dono.getPet().setNome(sc.next());
         
         System.out.println("Informe o tipo do pet: ");
-        tipo = sc.nextLine();
-        pet.setTipo(tipo);
+        dono.getPet().setTipo(sc.next());
         
         System.out.println("Informe a cor do pet: ");
-        cor = sc.nextLine();
-        pet.setCor(cor);
-        
-        dono.setPet(pet);
+        dono.getPet().setCor(sc.next());
         
         System.out.println("Nome do dono: " + dono.getNome());
         System.out.println("Idade do dono: " + dono.getIdade());
