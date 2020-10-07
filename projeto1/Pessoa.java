@@ -4,6 +4,8 @@ public class Pessoa {
 
     private String nome;
     private int idade;
+    private String sexo;
+    private Carro carro;
     /**
      * Construtor Vazio
      */
@@ -38,5 +40,21 @@ public class Pessoa {
     
     public int getIdade() {
         return this.idade;
+    }
+    
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+    
+    public String getSexo() {
+        return this.sexo;
+    }
+    
+    public void setCarro(Carro carro) {
+        this.carro = carro;
+    }
+    
+    public Carro getCarro(){
+        return this.carro;
     }
 }
