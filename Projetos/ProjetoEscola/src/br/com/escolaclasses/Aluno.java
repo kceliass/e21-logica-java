@@ -1,10 +1,17 @@
 package br.com.escolaclasses;
 
-public class Aluno {
+public class Aluno extends Pessoa {
     private String turma;
     private String materia;
     private String nota;
 
+    public Aluno(String nome, String turma, String materia, String nota) {
+        setNome(nome);
+        this.turma = turma;
+        this.materia = materia;
+        this.nota = nota;
+    }
+    
     public String getTurma() {
         return turma;
     }
