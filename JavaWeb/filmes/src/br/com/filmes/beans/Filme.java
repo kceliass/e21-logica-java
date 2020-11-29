@@ -3,17 +3,17 @@ package br.com.filmes.beans;
 import java.io.Serializable;
 
 public class Filme implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String titulo;
-	private int classificacao;
+	private String classificacao;
 	private String genero;
-	private int topFilme;
+	private boolean topFilme;
 	
-	public Filme(long l, String string, int i, String string2) {}
+	public Filme() {}
 	
-	public Filme(int id, String titulo, int classificacao, String genero, int topFilme) {
-		super();
+	public Filme(int id, String titulo, String classificacao, String genero, boolean topFilme) {
 		this.id = id;
 		this.titulo = titulo;
 		this.classificacao = classificacao;
@@ -21,78 +21,55 @@ public class Filme implements Serializable {
 		this.topFilme = topFilme;
 	}
 
-	public Filme() {
-		// TODO Auto-generated constructor stub
+	public Filme(String titulo, String classificacao, String genero, boolean topFilme) {
+		this.titulo = titulo;
+		this.classificacao = classificacao;
+		this.genero = genero;
+		this.topFilme = topFilme;
 	}
 
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
+	 
 	public void setId(int id) {
 		this.id = id;
 	}
-	/**
-	 * @return the titulo
-	 */
+
 	public String getTitulo() {
 		return titulo;
 	}
-	/**
-	 * @param titulo the titulo to set
-	 */
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	/**
-	 * @return the classificacao
-	 */
-	public int getClassificacao() {
+	
+	public String getClassificacao() {
 		return classificacao;
 	}
-	/**
-	 * @param classificacao the classificacao to set
-	 */
-	public void setClassificacao(int classificacao) {
+
+	public void setClassificacao(String classificacao) {
 		this.classificacao = classificacao;
 	}
-	/**
-	 * @return the genero
-	 */
+	
 	public String getGenero() {
 		return genero;
 	}
-	/**
-	 * @param genero the genero to set
-	 */
+
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-	/**
-	 * @return the serialversionuid
-	 */
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	/**
-	 * @return the topFilme
-	 */
-	public int getTopFilme() {
+	public boolean getTopFilme() {
 		return topFilme;
 	}
 
-	/**
-	 * @param topFilme the topFilme to set
-	 */
-	public void setTopFilme(int topFilme) {
+	public void setTopFilme(boolean topFilme) {
 		this.topFilme = topFilme;
 	}
-	
 	
 }
