@@ -2,7 +2,7 @@ package br.com.meudiario.beans;
 
 import java.io.Serializable;
 
-public class Nota implements Serializable{
+public class Nota implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
