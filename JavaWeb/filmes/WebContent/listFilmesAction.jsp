@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!-- Header -->
 <jsp:include page="inc/header.jsp"></jsp:include>
 
 <main>
 <div class="container">
+	<br>
 	<div class="row" id="cad-filme-container">
 		<a class="btn btn-success" href="filme?action=cadFilme"> <i class="fas fa-plus"></i> Cadastrar Filme</a>
 	</div>
+	<br>
 </div>
 <div class="row">
 	<br>
@@ -34,7 +38,7 @@
 						<a class="btn btn-sm btn-primary" href="filme?action=editFilme&id=${filme.id}" >
 						<i class="fas fa-edit"></i>
 						</a>
-						|
+						
 						 <a onclick="deleteFilme(${filme.id});" class="btn btn-sm btn-danger" href="filme?action=delfilme&id=${filme.id}" >
 						 <i class="fas fa-trash"></i>
 						 </a>
@@ -47,8 +51,4 @@
 </main>
 </div>
 
-<!--  Scripts -->
-<jsp:include page="inc/scripts.jsp"></jsp:include>
-
-</body>
-</html>
+<jsp:include page="inc/footer.jsp"></jsp:include>

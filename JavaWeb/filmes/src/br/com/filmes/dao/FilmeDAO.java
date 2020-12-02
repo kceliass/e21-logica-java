@@ -1,114 +1,172 @@
 package br.com.filmes.dao;
 
+import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-import br.com.filmes.beans.Filme;
+import br.com.filmes.beans.*;
 import br.com.filmes.cnn.ConnectionFactory;
 
-public class FilmeDAO {
-
-	public static ArrayList<Filme> listaFilmes() throws ClassNotFoundException, SQLException {
+public class FilmeDAO implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private static Connection cnn = ConnectionFactory.getConnection();
+	
+	public static ArrayList<Filme> getListaFilmes() {
+		ArrayList<Filme> listaFilmes = new ArrayList<Filme>();
 		Connection cnn = ConnectionFactory.getConnection();
-		String query = "select * from Filme";
-		ArrayList<Filme> arFilmes = new ArrayList();
-
+		String query = "SELECT * FROM notas";
+		
 		try {
 			PreparedStatement pStm = cnn.prepareStatement(query);
 			ResultSet rsFilmes = pStm.executeQuery();
-
-			while (rsFilmes.next()) {
-				Filme fil = new Filme(rsFilmes.getLong("id"), rsFilmes.getString("titulo"),
-						rsFilmes.getInt("classificacao"), rsFilmes.getString("genero"));
-				arFilmes.add(fil);
+			
+			while(rsFilmes.next()) {
+				Filme filme = new Filme(rsFilmes.getInt("id"),rsFilmes.getString("titulo"),
+										rsFilmes.getString("classificacao"), rsFilmes.getString("genero"), rsFilmes.getBoolean("top_filme"));
+				
+				listaFilmes.add(filme);
 			}
-			cnn.close();
+			
+			if (listaFilmes.size() < 1) {
+				listaFilmes = null;
+			}
+			
 			rsFilmes.close();
-			return arFilmes;
+			cnn.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		
+		return listaFilmes;
 	}
 	
-	public static int cadastrarFilme(Filme objFilme) {
-		
-		return 1;
-	}
-
-	public static Filme getFilmeById(int id) throws ClassNotFoundException, SQLException {
-		Filme FilmeRetorno = new Filme();
-		String query = "SELECT * FROM Filme WHERE id = ?";
-		Connection cnn = ConnectionFactory.getConnection();
+	public static ArrayList<Filme> getTopFilmes() {
+		ArrayList<Filme> topFilmes = new ArrayList<Filme>();
 		
 		try {
-			PreparedStatement pStmt = cnn.prepareStatement(query);
-			pStmt.setInt(1, id);
+			String query = "SELECT * FROM FILME WHERE TOP_FILME = TRUE";
+			PreparedStatement pSmt = cnn.prepareStatement(query);
+			ResultSet rsFilmes = pSmt.executeQuery();
 			
-			ResultSet rsFilme = pStmt.executeQuery();
-			while(rsFilme.next()) {
-				FilmeRetorno.setId(id);
-				FilmeRetorno.setTitulo(rsFilme.getString("titulo"));
-				FilmeRetorno.setClassificacao(rsFilme.getInt("classificacao"));
-				FilmeRetorno.setGenero(rsFilme.getString("genero"));
+			while(rsFilmes.next()) {
+				Filme filme = new Filme(rsFilmes.getInt("id"), rsFilmes.getString("titulo"), rsFilmes.getString("classificacao"), 
+										rsFilmes.getString("genero"), rsFilmes.getBoolean("top_filme"));
+				
+				topFilmes.add(filme);
 			}
-			rsFilme.close();
+			
+			rsFilmes.close();
 			cnn.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			topFilmes = null;
 		}
-		return FilmeRetorno;
+		
+		return topFilmes;
 	}
-
-	public static int cadastraFilme(Filme FilmeSubmit) throws ClassNotFoundException, SQLException {
-		String query = "INSERT INTO Filme(titulo, classificacao, genero) values (?, ?, ?)";
+	
+	public static int cadFilme(Filme filme) {
+		String query = "INSERT INTO FILME(titulo, classificacao, genero, top_filme) "
+					 + "VALUE(?, ?, ?, ?, " + filme.getTopFilme() + ");";
 		Connection cnn = ConnectionFactory.getConnection();
+		int linhasAfetadas = 0;
+		try {
+			PreparedStatement pSmt = cnn.prepareStatement(query);
+			pSmt.setString(1, filme.getTitulo());
+			pSmt.setString(2, filme.getClassificacao());
+			pSmt.setString(3, filme.getGenero());
+			
+			linhasAfetadas = pSmt.executeUpdate();
+			pSmt.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return linhasAfetadas;
+	}
+	
+	public static int delFilme(int id) {
 		int linhasAfetadas = 0;
 		
 		try {
-			PreparedStatement pStmt = cnn.prepareStatement(query);
-			pStmt.setString(1, FilmeSubmit.getTitulo());
-			pStmt.setInt(2, FilmeSubmit.getClassificacao());
-			pStmt.setString(3, FilmeSubmit.getGenero());
-			linhasAfetadas = pStmt.executeUpdate();
+			String query = "DELETE FROM filmes WHERE id = " + id + ";";
+			Connection cnn = ConnectionFactory.getConnection();
+			PreparedStatement pSmt = cnn.prepareStatement(query);
+			linhasAfetadas = pSmt.executeUpdate();
+			pSmt.close();
+			
+			PreparedStatement textExistemFilmes = cnn.prepareStatement("SELECT * FROM filmes;");
+			ResultSet rsFilmes = textExistemFilmes.executeQuery();
+			
+			if(rsFilmes.next()) {
+				String anoAtual= ("" + Calendar.getInstance().get(Calendar.YEAR)).substring(2, 4);
+				String resetID = "ALTER TABLE filmes AUTO_INCREMENT = " + anoAtual + "0001" + ";";
+				
+				PreparedStatement resetaID = cnn.prepareStatement(resetID);
+				resetaID.executeUpdate();
+				resetaID.close();
+			}
+			pSmt.close();
 			cnn.close();
+			textExistemFilmes.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return linhasAfetadas;
 	}
-
-	public static int updateFilme(Filme FilmeSubmit) throws ClassNotFoundException, SQLException {
-		String query = "UPDATE Filme SET nome = ?, dt_nascimento = ? WHERE id= ?";
+	
+	public static int editFilme(Filme filme) {
+		String query = "UPDATE filmes SET titulo = ?, classificacao = ?, "
+					 + "genero = ?, top_filme = ? WHERE id = " + filme.getId() + ";";
 		Connection cnn = ConnectionFactory.getConnection();
 		int linhasAfetadas = 0;
-		
 		try {
-			PreparedStatement pStmt = cnn.prepareStatement(query);
-			pStmt.setString(1, FilmeSubmit.getTitulo());
-			pStmt.setInt(2, FilmeSubmit.getClassificacao());
-			pStmt.setLong(3, FilmeSubmit.getId());
-			linhasAfetadas = pStmt.executeUpdate();
+			PreparedStatement pSmt = cnn.prepareStatement(query);
+			pSmt.setString(1, filme.getTitulo());
+			pSmt.setString(2, filme.getClassificacao());
+			pSmt.setString(3, filme.getGenero());
+			pSmt.setBoolean(4, filme.getTopFilme());
+			
+			linhasAfetadas = pSmt.executeUpdate();
+			pSmt.close();
 			cnn.close();
-		} catch (SQLException e) {
+			
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return linhasAfetadas;
 	}
-
-	public static int delFilme(int id) throws ClassNotFoundException, SQLException {
-		String query = "DELETE FROM Filme WHERE id= ?";
-		Connection cnn = ConnectionFactory.getConnection();
-		int linhasAfetadas = 0;
+	
+	public static Filme getFilme(int id) {
+		Filme filme = new Filme();
+		String query = "SELECT * FROM FILME WHERE ID = " + id + ";";
 		
 		try {
-			PreparedStatement pStmt = cnn.prepareStatement(query);
-			pStmt.setInt(1, id);
-			linhasAfetadas = pStmt.executeUpdate();
-			cnn.close();
-		} catch (SQLException e) {
+			PreparedStatement pSmt = cnn.prepareStatement(query);
+			ResultSet rsFilmes = pSmt.executeQuery();
+			
+			if(rsFilmes.next()) {
+				filme.setId(id);
+				filme.setTitulo(rsFilmes.getString("titulo"));
+				filme.setGenero(rsFilmes.getString("genero"));
+				filme.setClassificacao(rsFilmes.getString("classificacao"));
+				filme.setTopFilme(rsFilmes.getBoolean("top_filme"));
+			}
+			
+			pSmt.close();
+			
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return linhasAfetadas;
+		
+		return filme;
 	}
+	
 }
