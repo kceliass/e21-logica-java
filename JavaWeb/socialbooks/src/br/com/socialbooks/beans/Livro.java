@@ -18,11 +18,24 @@ public class Livro implements Serializable {
 		this.autor = autor;
 	}
 	
+	public Livro(int id, String titulo, String autor, Categoria categoria) {
+		this.id = id;
+		this.titulo = titulo;
+		this.autor = autor;
+		this.categoria = categoria;
+	}
+	
 	public Livro(int id, Categoria categoria, String titulo, String autor) {
 		this.id = id;
 		this.categoria = categoria;
 		this.titulo = titulo;
 		this.autor = autor;
+	}
+	
+	public Livro(String titulo, String autor, Categoria categoria) {
+		this.titulo = titulo;
+		this.autor = autor;
+		this.categoria = categoria;
 	}
 
 	public int getId() {
@@ -48,4 +61,15 @@ public class Livro implements Serializable {
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+	
+	
+	
 }

@@ -45,34 +45,36 @@ public class LivroDAO {
 
 	public static int cadLivro(Livro livro) {
 		Connection cnn = ConnectionFactory.getConnection();
-		String sql = "INSERT INTO livros(titulo, autor) VALUES"
-				   + "(?, ?)";
+		String sql = "INSERT INTO livros(categoria_id, titulo, autor) VALUES"
+				   + "(?, ?, ?)";
 		int retorno = 0;
 		
 		try {
 			PreparedStatement pStm = cnn.prepareStatement(sql);
-			pStm.setString(1, livro.getTitulo());
-			pStm.setString(2, livro.getAutor());
+			pStm.setInt(1, livro.getCategoria().getId());
+			pStm.setString(2, livro.getTitulo());
+			pStm.setString(3, livro.getAutor());
 			
 			retorno = pStm.executeUpdate();
+			cnn.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return retorno;
 	}
 
 	public static int editLivro(Livro livro) {
 		Connection cnn = ConnectionFactory.getConnection();
-		String sql = "UPDATE livros SET titulo = ?, autor = ? WHERE id = ?";
+		String sql = "UPDATE livros SET categoria_id = ?, titulo = ?, autor = ? WHERE id = ?";
 		int retorno = 0;
 		
 		try {
 			PreparedStatement pStm = cnn.prepareStatement(sql);
-			pStm.setString(1, livro.getTitulo());
-			pStm.setString(2, livro.getAutor());
-			pStm.setLong(3, livro.getId());
+			pStm.setInt(1, livro.getCategoria().getId());
+			pStm.setString(2, livro.getTitulo());
+			pStm.setString(3, livro.getAutor());
+			pStm.setLong(4, livro.getId());
 			
 			retorno = pStm.executeUpdate();
 			
@@ -98,6 +100,7 @@ public class LivroDAO {
 				livro.setId(id);
 				livro.setTitulo(rsLivro.getString("titulo"));
 				livro.setAutor("autor");
+				livro.getCategoria().getId();
 			}
 			
 ;		} catch (SQLException e) {

@@ -11,10 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import br.com.socialbooks.beans.Categoria;
 import br.com.socialbooks.beans.Livro;
+import br.com.socialbooks.model.CategoriaModel;
 import br.com.socialbooks.model.LivroModel;
 
 @WebServlet("/livro")
@@ -22,28 +25,30 @@ public class LivroController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
+		HttpSession session = request.getSession();
+		if(session.getAttribute("usuarioLogado") != null && "1".equals(session.getAttribute("usuarioLogado"))) {
+			String action = (request.getParameter("action") != null) ? request.getParameter("action") : "list";
+			switch (action) {
+				case "list":
+					listAction(request,response, session);
+					break;
+				case "cad":
+					cadAction(request,response, session);
+					break;
+				case "ver":
+					verAction(request,response, session);
+					break;
+				case "edit":
+					editAction(request,response, session);
+					break;
+				case "del":
+					delAction(request,response, session);
+					break;
 		
-		switch (action) {
-			case "list":
-				listAction(request,response);
-				break;
-			case "cad":
-				cadAction(request,response);
-				break;
-			case "ver":
-				verAction(request,response);
-				break;
-			case "edit":
-				editAction(request,response);
-				break;
-			case "del":
-				delAction(request,response);
-				break;
-	
-			default:
-				notFoundAction(request,response);
-				break;
+				default:
+					notFoundAction(request,response);
+					break;
+			}
 		}
 	}
 
@@ -55,7 +60,7 @@ public class LivroController extends HttpServlet {
 		
 	}
 
-	private void delAction(HttpServletRequest request, HttpServletResponse response) {
+	private void delAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		int id = (request.getParameter("id") != null)? Integer.parseInt(request.getParameter("id")) : 0;
 		int retorno;
 		String textoResponse = "Ocorreu m Erro ao Apagar a Nota";
@@ -71,7 +76,7 @@ public class LivroController extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("pageSuccess.jsp");
 	}
 
-	private void editAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void editAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		int id = (request.getParameter("id") != null)? Integer.parseInt(request.getParameter("id")) : 0;
 		Livro livro = new Livro();
 		
@@ -84,7 +89,7 @@ public class LivroController extends HttpServlet {
 	}
 
 
-	private void verAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void verAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Livro livro = LivroModel.getLivroById(id);
 		
@@ -94,17 +99,21 @@ public class LivroController extends HttpServlet {
 		
 	}
 
-	private void listAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void listAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
 		List<Livro> listaLivros = LivroModel.getListLivros();
 		
 		request.setAttribute("listaLivros", listaLivros);
 		request.setAttribute("listSize", listaLivros.size());
-		RequestDispatcher rd = request.getRequestDispatcher("listLivros.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("livros/listLivros.jsp");
 		rd.forward(request, response);
 	}
 
-	private void cadAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("cadLivros.jsp");
+	private void cadAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		List<Categoria> listaCategoria = CategoriaModel.getListCategorias();
+		
+		request.setAttribute("listaCategoria", listaCategoria);
+		request.setAttribute("usuarioNome", session.getAttribute("nome"));
+		RequestDispatcher rd = request.getRequestDispatcher("livros/cadLivros.jsp");
 		rd.forward(request, response);
 	}
 
@@ -112,15 +121,17 @@ public class LivroController extends HttpServlet {
 		RequestDispatcher rd;
 		String titulo = request.getParameter("titulo");
 		String autor = request.getParameter("autor");
+		int idCategoria = Integer.parseInt(request.getParameter("categoria_id"));
+		Categoria categoria = new Categoria(idCategoria,"");
 		int id = (request.getParameter("id") != null)? Integer.parseInt(request.getParameter("id")) : 0;
 		int retorno = 0;
 		
 		try {
 			
 			if(id > 0) {
-				retorno = LivroModel.editLivro(id, titulo, autor);
+				retorno = LivroModel.editLivro(id, titulo, autor, categoria);
 			} else {
-				retorno = LivroModel.cadLivro(titulo, autor);
+				retorno = LivroModel.cadLivro(titulo, autor, categoria);
 			}
 			
 			if(retorno > 0) {

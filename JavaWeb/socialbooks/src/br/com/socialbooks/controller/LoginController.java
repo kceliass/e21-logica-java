@@ -11,15 +11,12 @@ import javax.servlet.http.HttpSession;
 import br.com.socialbooks.beans.Usuario;
 import br.com.socialbooks.model.UsuarioModel;
 
-/**
- * Servlet implementation class LoginController
- */
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect("/socialbook/");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,23 +34,24 @@ public class LoginController extends HttpServlet {
 		session.setAttribute("usuarioLogado", null);
 		session.setAttribute("nome", null);
 		session.setAttribute("login", null);
-		response.sendRedirect("/");
+		response.sendRedirect("/socialbooks/");
 	}
 
 	private void loginAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
+		HttpSession session = request.getSession();
 		
 		Usuario usuario = UsuarioModel.getLogin(login, senha);
 		
 		if(usuario != null) {
-			HttpSession session = request.getSession();
 			session.setAttribute("usuarioLogado", "1");
 			session.setAttribute("nome", usuario.getNome());
 			session.setAttribute("login", usuario.getLogin());
-			response.sendRedirect("social");
+			response.sendRedirect("livros");
 		} else {
-			response.sendRedirect("/");
+			session.setAttribute("erroMsg", "Login ou Senha Incorretos");
+			response.sendRedirect("/socialbooks/");
 		}
 	}
 

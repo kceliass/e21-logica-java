@@ -3,6 +3,7 @@ package br.com.socialbooks.model;
 import java.text.ParseException;
 import java.util.List;
 
+import br.com.socialbooks.beans.Categoria;
 import br.com.socialbooks.beans.Livro;
 import br.com.socialbooks.dao.LivroDAO;
 
@@ -12,19 +13,14 @@ public class LivroModel {
 		return LivroDAO.getListLivros();
 	}
 	
-	public static int cadLivro(String titulo, String autor) throws ParseException {
-		Livro livro = new Livro();
-		livro.setTitulo(titulo);
-		livro.setAutor(autor);
+	public static int cadLivro(String titulo, String autor, Categoria categoria) throws ParseException {
+		Livro livro = new Livro(titulo, autor, categoria);
 		
 		return LivroDAO.cadLivro(livro);
 	}
 	
-	public static int editLivro(int id, String titulo, String autor) throws ParseException {
-		Livro livro = new Livro();
-		livro.setId(id);
-		livro.setTitulo(titulo);
-		livro.setAutor(autor);
+	public static int editLivro(int id, String titulo, String autor, Categoria categoria) throws ParseException {
+		Livro livro = new Livro(id, titulo, autor, categoria);
 		
 		return LivroDAO.editLivro(livro);
 	}

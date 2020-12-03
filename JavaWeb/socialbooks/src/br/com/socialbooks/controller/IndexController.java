@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebServlet("/inicio")
+@WebServlet("/index")
 public class IndexController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		if("".equals(session.getAttribute("usuarioLogado"))){
-			RequestDispatcher rd = request.getRequestDispatcher("index");
+		if(session.getAttribute("usuarioLogado") == null || "".equals(session.getAttribute("usuarioLogado"))){
+			RequestDispatcher rd = request.getRequestDispatcher("index/index.jsp");
 			rd.forward(request, response);
 		} else {
-			response.sendRedirect("/social");
+			response.sendRedirect("livro?action=list");
 		}
 	}
 

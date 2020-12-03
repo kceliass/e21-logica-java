@@ -2,6 +2,26 @@
     pageEncoding="ISO-8859-1"%>
 </div>
 
+<footer class="page-footer font-small unique-color-dark pt-4">
+
+  <div class="container">
+
+    <ul class="list-unstyled list-inline text-center py-2">
+      <li class="list-inline-item">
+        <h5 class="mb-1">Não tem uma Conta?</h5>
+      </li>
+      <li class="list-inline-item">
+        <a href="#!" class="btn btn-outline-white btn-rounded">Cadastre-se</a>
+      </li>
+    </ul>
+
+
+  </div>
+
+  <div class="footer-copyright text-center py-3">Kauan Claudio Elias
+  </div>
+
+</footer>
 <!-- JQUERY -->
 <script
   src="https://code.jquery.com/jquery-3.5.1.min.js"
