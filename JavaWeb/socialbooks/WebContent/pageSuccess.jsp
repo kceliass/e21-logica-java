@@ -13,7 +13,7 @@
 		</h3>
 		<br>
 		<hr>
-		<a class="btn btn-lg btn-primary" href="notas?action=list">Lista de Livros</a>
+		<a class="btn btn-lg btn-primary" href="livro?action=list">Lista de Livros</a>
 	</div>
 		
 </main>

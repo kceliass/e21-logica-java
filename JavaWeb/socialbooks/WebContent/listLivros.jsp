@@ -52,6 +52,9 @@
 		</c:if>
 	</div>
 		
+		<c:forEach var="livro"vitems="${listaLivros }">
+			<
+		
 		
 </main>
 

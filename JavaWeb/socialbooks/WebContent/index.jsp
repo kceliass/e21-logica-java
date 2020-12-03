@@ -18,6 +18,22 @@
 			<h3>Faça seu Login para acessar</h3>
 			<br>
 			<hr>
+			<div class="row">
+		<form class="col" action="livro" method="post">
+			<div class="form-group has-feedback">
+				<input type="text" name="titulo" id="titulo" class="form-control" placeholder="Usuário" >
+			</div>
+			<div class="form-group has-feedback">
+				<input type="text" name="usuario" id="usuario" class="form-control" placeholder="Senha" >
+			</div>
+			<div class="form-group">
+				<input type="submit" id="btnSubmit" class="btn btn-lg btn-block btn-success" value="Acessar" >
+				<br>
+				<p>Não Tem Uma Conta? <a href="usuario?action=cad"> Cadastrar-se</a></p>
+				
+			</div>
+		</form>
+	</div>
 			<a class="btn btn-lg btn-primary" href="livro?action=list">Acessar</a>
 		</div>
 	</main>
